@@ -206,20 +206,20 @@ dependencies {
     testCompile ('org.springframework.cloud:spring-cloud-contract-wiremock:2.2.1.RELEASE')
     // To avoid compiler warnings about @API annotations in JUnit5 code.
     testCompileOnly 'org.apiguardian:apiguardian-api:1.0.0'
-    testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
-    testRuntime "org.junit.vintage:junit-vintage-engine:${junitVintageVersion}"
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.24.0'
-    testCompile group:'org.mockito', name: 'mockito-junit-jupiter', version:'2.24.0'
-    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: powermockVersion
-    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: powermockVersion
-    testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
-    testCompile group: 'com.xebialabs.restito', name: 'restito', version: '0.9.3'
-    testCompile 'io.github.openfeign:feign-jackson:9.7.0'
-    testCompile 'pl.allegro.tech:embedded-elasticsearch:2.7.0'
+    compile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    compile "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+    compile "org.junit.vintage:junit-vintage-engine:${junitVintageVersion}"
+    compile group: 'org.mockito', name: 'mockito-core', version: '2.24.0'
+    compile group:'org.mockito', name: 'mockito-junit-jupiter', version:'2.24.0'
+    compile group: 'org.powermock', name: 'powermock-api-mockito2', version: powermockVersion
+    compile group: 'org.powermock', name: 'powermock-module-junit4', version: powermockVersion
+    compile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
+    compile group: 'com.xebialabs.restito', name: 'restito', version: '0.9.3'
+    compile 'io.github.openfeign:feign-jackson:9.7.0'
+    compile 'pl.allegro.tech:embedded-elasticsearch:2.7.0'
 
     // for sonar analysis
-    testCompile group: 'org.openid4java', name: 'openid4java', version: '1.0.0'
+    compile group: 'org.openid4java', name: 'openid4java', version: '1.0.0'
     // remove me once insights is in
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
@@ -232,7 +232,7 @@ dependencies {
     }
     compile 'org.jooq:jool-java-8:0.9.14'
 
-    testCompile group: 'uk.gov.hmcts', name: 'befta-fw', version: '5.15.1'
+    compile group: 'uk.gov.hmcts', name: 'befta-fw', version: '5.19.0.regex.fix.2'
 
 }
 // end::dependencies[]

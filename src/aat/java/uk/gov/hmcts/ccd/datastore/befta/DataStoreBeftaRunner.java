@@ -14,7 +14,7 @@ import uk.gov.hmcts.befta.BeftaMain;
     features = { "classpath:features" }, tags = { "(not @Ignore) or (not @elasticsearch)" })
 public class DataStoreBeftaRunner {
 
-    private DataStoreBeftaRunner() {
+    public DataStoreBeftaRunner() {
       // Hide Utility Class Constructor : Utility classes should not have a public or default constructor (squid:S1118)
     }
 
