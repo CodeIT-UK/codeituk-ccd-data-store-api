@@ -22,3 +22,4 @@ Scenario: must delete cases to be cleaned up and only those ones
 @S-126.10
 Scenario: must get an error in an attempt to delete cases with a non-admin user
     Given a user with [an non-admin profile on CCD],
+

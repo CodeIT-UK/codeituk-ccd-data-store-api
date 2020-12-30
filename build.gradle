@@ -86,8 +86,8 @@ ext {
     reformLogging = '5.1.0'
     appInsightsVersion = '2.4.1'
     swagger2Version = '3.0.0'
-    hibernateVersion = '5.4.18.Final!!'
-    hazelcastVersion = '4.0'
+    hibernateVersion = '5.4.24.Final!!'
+    hazelcastVersion = '4.0.3'
     limits = [
             'instruction': 90,
             'branch'     : 85,
@@ -157,9 +157,10 @@ dependencies {
     compile group: 'javax.inject', name: 'javax.inject', version: '1'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.2'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: swagger2Version
 
-    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.8.9'
+    compile group: 'org.liquibase', name: 'liquibase-core', version: '3.10.3'
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.26'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.1'
     compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.1'
@@ -179,7 +180,7 @@ dependencies {
     compile group: 'org.awaitility', name: 'awaitility', version: '3.1.6'
 
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.10.3'
-    compile "com.fasterxml.jackson.core:jackson-databind:2.10.3"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.11.1"
 
     // use the latest org.springframework.security
     compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.3.4.RELEASE'
@@ -205,20 +206,20 @@ dependencies {
     testCompile ('org.springframework.cloud:spring-cloud-contract-wiremock:2.2.4.RELEASE')
     // To avoid compiler warnings about @API annotations in JUnit5 code.
     testCompileOnly 'org.apiguardian:apiguardian-api:1.0.0'
-    testCompile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
-    testRuntime "org.junit.vintage:junit-vintage-engine:${junitVintageVersion}"
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.24.0'
-    testCompile group:'org.mockito', name: 'mockito-junit-jupiter', version:'2.24.0'
-    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: powermockVersion
-    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: powermockVersion
-    testCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
-    testCompile group: 'com.xebialabs.restito', name: 'restito', version: '0.9.3'
-    testCompile 'io.github.openfeign:feign-jackson:9.7.0'
-    testCompile 'pl.allegro.tech:embedded-elasticsearch:2.7.0'
+    compile "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    compile "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+    compile "org.junit.vintage:junit-vintage-engine:${junitVintageVersion}"
+    compile group: 'org.mockito', name: 'mockito-core', version: '2.24.0'
+    compile group:'org.mockito', name: 'mockito-junit-jupiter', version:'2.24.0'
+    compile group: 'org.powermock', name: 'powermock-api-mockito2', version: powermockVersion
+    compile group: 'org.powermock', name: 'powermock-module-junit4', version: powermockVersion
+    compile group: 'io.rest-assured', name: 'rest-assured', version: '4.3.0'
+    compile group: 'com.xebialabs.restito', name: 'restito', version: '0.9.3'
+    compile 'io.github.openfeign:feign-jackson:9.7.0'
+    compile 'pl.allegro.tech:embedded-elasticsearch:2.7.0'
 
     // for sonar analysis
-    testCompile group: 'org.openid4java', name: 'openid4java', version: '1.0.0'
+    compile group: 'org.openid4java', name: 'openid4java', version: '1.0.0'
     // remove me once insights is in
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 
@@ -226,12 +227,12 @@ dependencies {
     compile(group: 'io.searchbox', name: 'jest', version: '6.3.1') {
         exclude group: 'org.apache.logging.log4j', module: 'log4j-core'
     }
-    compile(group: 'org.elasticsearch', name: 'elasticsearch', version: '6.8.12') {
+    compile(group: 'org.elasticsearch', name: 'elasticsearch', version: '6.8.13') {
         exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
     }
     compile 'org.jooq:jool-java-8:0.9.14'
 
-    testCompile group: 'uk.gov.hmcts', name: 'befta-fw', version: '5.19.0'
+    compile group: 'uk.gov.hmcts', name: 'befta-fw', version: '5.19.0.regex.fix.2'
 }
 // end::dependencies[]
 
@@ -245,7 +246,7 @@ dependencyManagement {
         dependency 'com.google.guava:guava:24.1.1-jre'
 
         // CVE-2019-0232 - Java and Command Line injections in Windows
-        dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.37') {
+        dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.40') {
             entry 'tomcat-embed-core'
             entry 'tomcat-embed-el'
             entry 'tomcat-embed-websocket'
@@ -733,12 +734,13 @@ task functional() {
         javaexec {
             main = "uk.gov.hmcts.ccd.datastore.befta.DataStoreBeftaMain"
             classpath += configurations.cucumberRuntime + sourceSets.aat.runtimeClasspath + sourceSets.main.output + sourceSets.test.output
-            args = ['--threads', '10',
-                    '--plugin', "json:${rootDir}/target/cucumber.json",
-                    '--tags', 'not @Ignore',
-                    '--glue', 'uk.gov.hmcts.befta.player',
-                    '--glue', "uk.gov.hmcts.ccd.datastore.befta",
-                    'src/aat/resources/features']
+            args = [
+                     '--threads', '10',
+                     '--plugin', 'json:${rootDir}/target/cucumber.json',
+                     '--tags', 'not @Ignore',
+                     '--glue', 'uk.gov.hmcts.befta.player',
+                     '--glue', 'uk.gov.hmcts.ccd.datastore.befta', 'src/aat/resources/features'
+                   ]
             jvmArgs = [ '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED' ]
         }
 
